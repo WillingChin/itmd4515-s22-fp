@@ -5793,6 +5793,7 @@ function remove( elem, selector, keepData ) {
 
 jQuery.extend( {
 	htmlPrefilter: function( html ) {
+                console.log("end.")
 		return html;
 	},
 
