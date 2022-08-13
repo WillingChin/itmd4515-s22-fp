@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+    template="./WEB-INF/templates/appTemplate.xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="readonly" type="java.lang.Boolean" required="false" default="true" />
+        <cc:attribute name="user" type="edu.iit.sat.itmd515.xchen202.security.domain.User" required="true" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+        <cc:attribute name="operation" required="true" type="java.lang.String" />
+    </cc:interface>
+    
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        
+        <ui:fragment rendered="#{cc.attrs.operation.equals('delete')}">
+            <h1>Are you sure you want to delete this user?</h1>
+        </ui:fragment>
+
+        <h:form>
+            <h:panelGroup 
+                rendered="#{not cc.attrs.operation.equals('create')}"
+                layout="block" 
+                styleClass="mb-3">
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="username" value="username" />
+                
+                <h:inputText id="display_username" styleClass="form-control" p:placeholder="username" value="#{cc.attrs.user.username}"
+                    readonly="true"
+                    disabled="true"
+                    >
+                </h:inputText>
+                <h:message for="display_username" styleClass="text-danger" />
+                <h:inputHidden
+                    id="username" 
+                    value="#{cc.attrs.user.username}" />
+            </h:panelGroup>
+            
+            <ui:fragment rendered="true">
+                <h:outputLabel styleClass="form-label" for="groups" value="groups" />
+                
+                <p:selectCheckboxMenu id="groups" styleClass="form-control" value="#{userController.groupValues}" label="groups" multiple="true"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                    <f:selectItems value="#{userController.allGroupsStr}" />
+                </p:selectCheckboxMenu>
+            </ui:fragment>
+            
+            <ui:fragment rendered="#{cc.attrs.operation.equals('update')}">
+                <h:panelGroup layout="block" styleClass="mb-3" >
+                    <h4>Change Password</h4>
+                    <h:outputLabel styleClass="form-label" for="password" value="old password" />
+                    <p:password id="password" styleClass="form-control" value="#{cc.attrs.user.password}" feedback="true" inline="true" />
+                    <h:message for="password" styleClass="text-danger" />
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="mb-3" >
+                    <h:outputLabel styleClass="form-label" for="newPassword" value="newPassword" />
+                    <p:password id="newPassword" styleClass="form-control" value="#{userController.newPassword}" feedback="true" inline="true" />
+                    <h:message for="newPassword" styleClass="text-danger" />
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="mb-3" >
+                    <h:outputLabel styleClass="form-label" for="confirmPassword" value="confirmPassword" />
+                    <p:password id="confirmPassword" styleClass="form-control" value="#{userController.confirmPassword}" feedback="true" inline="true" />
+                    <h:message for="confirmPassword" styleClass="text-danger" />
+                </h:panelGroup>
+                
+            </ui:fragment>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="enabled" value="enabled" />
+                <h:selectOneMenu styleClass="form-control" id="enabled" value="#{cc.attrs.user.enabled}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:selectItem itemValue="null" itemLabel="Select a enabled..." />
+                    <f:selectItem itemValue="#{true}" itemLabel="Enable"/>
+                    <f:selectItem itemValue="#{false}" itemLabel="Disable"/>
+                </h:selectOneMenu>
+                <h:message for="enabled" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('create')}"
+                styleClass="btn btn-primary" 
+                value="Create user" 
+                action="#{cc.attrs.action}" />
+
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('update')}"
+                styleClass="btn btn-primary" 
+                value="Update user" 
+                action="#{cc.attrs.action}" >
+                <f:param name="newPassword" value="userb.newPassword}"/>
+            </h:commandButton>
+
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('delete')}"
+                styleClass="btn btn-primary" 
+                value="Confirm Deletion" 
+                action="#{cc.attrs.action}" />
+        </h:form>
+
+    </cc:implementation>
+</html>

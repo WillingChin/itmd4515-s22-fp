@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                template="./WEB-INF/templates/appTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+
+    
+    <ui:define name="title">
+        Hello Bootstrap! See you again.
+    </ui:define>
+    
+    <ui:define name="content">
+        GGG Gym
+    </ui:define>
+
+    <ui:define name="menu">
+        
+        <h:form>
+            <div class="ui-orderlist-list ui-33" style="padding-top: 24px; max-width: 500px;">
+                
+                <p:orderList value="#{dashboardController.rankingList}" var="treadmills" itemValue="#{treadmills}" 
+                             controlsLocation="none" responsive="true">
+                    <f:facet name="caption">Every day rangking list</f:facet>
+                    <f:facet name="caption">
+                        <table role="grid">
+                            <thead id="form:products_head">
+                                <tr role="row">
+                                    <th id="form:products:j_idt312" 
+                                        style="width: auto;"
+                                        class="ui-state-default ui-orderlist-caption" role="columnheader" aria-label="Code" scope="col">
+                                        <span class="ui-column-title">sort</span></th>
+                                    <th id="form:products:j_idt314" class="ui-state-default ui-orderlist-caption" role="columnheader" aria-label="Name" scope="col">
+                                        <span class="ui-column-title">username</span></th>
+                                    <th id="form:products:j_idt316" class="ui-state-default ui-orderlist-caption" role="columnheader" aria-label="Category" scope="col">
+                                        <span class="ui-column-title">mills(km)</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </f:facet>
+                    
+                    <p:column class="ui-orderlist-item" style="padding: 0px 25px">
+                        <h:outputText value="#{dashboardController.rankingList.indexOf(treadmills) + 1}"/>
+                    </p:column>
+                    
+                    <p:column class="ui-orderlist-caption">
+                        <h:outputText value="#{treadmills.account.username}"/>
+                    </p:column>
+                    
+                    <p:column class="ui-orderlist-caption" style="padding: 0px 45px">
+                        <h:outputText value="${treadmills.mills}"/>
+                    </p:column>
+                    
+                </p:orderList>
+                
+            </div>
+        </h:form>
+        
+        <style type="text/css">
+            .ui-widget-content{
+                height: auto !important;
+            }
+        </style>
+    </ui:define>
+    
+</ui:composition>
+

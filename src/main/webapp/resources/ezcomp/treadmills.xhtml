@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="readonly" type="java.lang.Boolean" required="false" default="true" />
+        <cc:attribute name="treadmills" type="edu.iit.sat.itmd515.xchen202.domain.Treadmills" required="true" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+        <cc:attribute name="operation" required="true" type="java.lang.String" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <ui:fragment rendered="#{cc.attrs.operation.equals('delete')}">
+            <h1>Are you sure you want to delete this Treadmills?</h1>
+        </ui:fragment>
+
+        <h:form>
+            <h:panelGroup 
+                rendered="#{not cc.attrs.operation.equals('create')}"
+                layout="block" 
+                styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="id" value="treadmills ID #{cc.attrs.treadmills.id}" />
+                <h:inputHidden
+                    id="id" 
+                    value="#{cc.attrs.treadmills.id}" />
+                <h:messages for="id" styleClass="text-danger" />
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="account" value="account" />
+                
+                <h:selectOneMenu styleClass="form-control" id="account" value="#{cc.attrs.treadmills.account}" converter="SelectItemToEntityConverter"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:selectItem itemValue="#{null}" itemLabel="Select a account..." />
+                    <f:selectItems value="#{treadmillsController.allAccounts}"
+                                   var="account"
+                                   itemLabel="#{account.username}"
+                                   itemValue="#{account}"/>
+                </h:selectOneMenu>
+                <h:message for="account" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="machine" value="machine" />
+                
+                <h:selectOneMenu styleClass="form-control" id="machine" value="#{cc.attrs.treadmills.machine}" converter="SelectItemToEntityConverter"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:selectItem itemValue="#{null}" itemLabel="Select a machine..." />
+                    <f:selectItems value="#{treadmillsController.allMachines}"
+                                   var="machine"
+                                   itemLabel="#{machine.name} #{machine.createdTimestamp}"
+                                   itemValue="#{machine}"/>
+                </h:selectOneMenu>
+                <h:message for="machine" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="altitude" value="altitude" />
+                
+                <h:inputText id="name" styleClass="form-control" p:placeholder="altitude" value="#{cc.attrs.treadmills.altitude}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:convertNumber type="number" maxIntegerDigits="5" maxFractionDigits="0">
+                    </f:convertNumber>
+                </h:inputText>
+                <h:message for="altitude" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="kcal" value="kcal" />
+                
+                <h:inputText id="kcal" styleClass="form-control" p:placeholder="kcal" value="#{cc.attrs.treadmills.kcal}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                </h:inputText>
+                <h:message for="kcal" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="mills" value="mills" />
+                
+                <h:inputText id="mills" styleClass="form-control" p:placeholder="mills" value="#{cc.attrs.treadmills.mills}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+<!--                    
+                    <f:convertNumber type="number" maxIntegerDigits="5" maxFractionDigits="0">
+                    </f:convertNumber>
+                    -->
+                </h:inputText>
+                <h:message for="mills" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="startDate" value="startDate" />
+                <h:inputText id="startDate" p:type="date" styleClass="form-control" value="#{cc.attrs.treadmills.startDate}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                </h:inputText>
+                <h:message for="startDate" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="useTime" value="useTime" />
+                
+                <h:inputText id="useTime" styleClass="form-control" p:placeholder="useTime" value="#{cc.attrs.treadmills.useTime}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:convertDateTime type="localTime" pattern="HH:mm:ss" />
+                </h:inputText>
+                <h:message for="useTime" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('create')}"
+                styleClass="btn btn-primary" 
+                value="Create Treadmills" 
+                action="#{cc.attrs.action}" />
+
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('update')}"
+                styleClass="btn btn-primary" 
+                value="Update Treadmills" 
+                action="#{cc.attrs.action}" />
+
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('delete')}"
+                styleClass="btn btn-primary" 
+                value="Confirm Deletion" 
+                action="#{cc.attrs.action}" />
+        </h:form>
+
+    </cc:implementation>
+</html>

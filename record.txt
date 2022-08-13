@@ -1,0 +1,29 @@
+record design optimization
+
+
+
+@Stateless
+public class PaymentService extends GenericService<Payment>{
+    
+    public PaymentService() {
+        super(Payment.class);
+    }
+    
+    @Override
+    public List<Payment> findAll() {
+        return em.createNamedQuery("Payment.findAll", Payment.class).getResultList();
+    }
+    
+    
+}
+
+
+
+
+https://stackoverflow.com/questions/34238915/change-the-default-language-in-javadoc#:~:text=Right%20click%20the%20project%20in,the%20JavaDoc%20are%20in%20English%20!	
+
+
+
+asadmin start-domain --debug true
+Listening for transport dt_socket at address: 9009
+

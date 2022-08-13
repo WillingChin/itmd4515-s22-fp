@@ -1,0 +1,1 @@
+cmd.exe /X /C "D:\webJava\Java\jdk-12\bin\javadoc.exe @options @packages @argfile"

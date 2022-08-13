@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="readonly" type="java.lang.Boolean" required="false" default="true" />
+        <cc:attribute name="user" type="edu.iit.sat.itmd515.xchen202.security.domain.User" required="true" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+        <cc:attribute name="operation" required="true" type="java.lang.String" />
+    </cc:interface>
+    
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        
+        <ui:fragment rendered="#{cc.attrs.operation.equals('delete')}">
+            <h1>Are you sure you want to delete this user?</h1>
+        </ui:fragment>
+        
+        <h:panelGrid 
+            rendered="#{userController.showSuccessMessage}"
+            class="alert alert-success" 
+            role="alert">
+            <h:messages globalOnly="true" showSummary="true" showDetail="true" />
+        </h:panelGrid>
+        
+        <h:form>
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="username" value="username" />
+                
+                <h:inputText id="username" styleClass="form-control" p:placeholder="username" value="#{cc.attrs.user.username}"
+                    >
+                </h:inputText>
+                <h:message for="username" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="password" value="password" />
+<!--                
+                <h:inputText id="password" styleClass="form-control" p:placeholder="password" value="#{cc.attrs.user.password}"
+                    >
+                </h:inputText>
+                -->
+                <p:password id="password" styleClass="form-control" value="#{cc.attrs.user.password}" feedback="true" inline="true" />
+                <h:message for="password" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="confirmPassword" value="confirmPassword" />
+<!--                
+                <h:inputText id="confirmPassword" styleClass="form-control" p:placeholder="confirmPassword" value="#{userController.confirmPassword}"
+                    >
+                </h:inputText>
+                -->
+                <p:password id="confirmPassword" styleClass="form-control"  value="#{userController.confirmPassword}" feedback="true" inline="true" />
+                <h:message for="confirmPassword" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="mb-3">
+                <h:outputLabel styleClass="form-label" for="enabled" value="enabled" />
+                <h:selectOneMenu styleClass="form-control" id="enabled" value="#{cc.attrs.user.enabled}"
+                    readonly="#{cc.attrs.readonly}"
+                    disabled="#{cc.attrs.readonly}"
+                    >
+                    <f:selectItem itemValue="null" itemLabel="Select a enabled..." />
+                    <f:selectItem itemValue="#{true}" itemLabel="Enable"/>
+                    <f:selectItem itemValue="#{false}" itemLabel="Disable"/>
+                </h:selectOneMenu>
+                <h:message for="enabled" styleClass="text-danger" />
+            </h:panelGroup>
+            
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('create')}"
+                styleClass="btn btn-primary" 
+                value="Create user" 
+                action="#{cc.attrs.action}" 
+                />
+            
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('create')}"
+                styleClass="btn btn-primary" 
+                value="Update user" 
+                action="#{cc.attrs.action}" >
+                <f:param name="newPassword" value="userb.newPassword}"/>
+            </h:commandButton>
+            
+            <h:commandButton 
+                rendered="#{cc.attrs.operation.equals('delete')}"
+                styleClass="btn btn-primary" 
+                value="Confirm Deletion" 
+                action="#{cc.attrs.action}" />
+        </h:form>
+
+    </cc:implementation>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+        <h:head>
+            
+        </h:head>
+        <h:body>
+            <a href="apidocs/index.html">apidocs</a>
+            <h:form>
+                <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+                <div class="card">
+                    <h5>Basic</h5>
+                    <p:orderList value="#{orderListView.cities}" var="city" controlsLocation="none" itemLabel="#{city}" itemValue="#{city}" />
+                </div>
+
+                <div class="card">
+                    <h5>Advanced</h5>
+                    <p:orderList value="#{orderListView.countries}" var="country" itemValue="#{country}"
+                                 converter="#{countryConverter}" controlsLocation="left" responsive="true">
+                        <p:ajax event="select" listener="#{orderListView.onSelect}" update="msgs"/>
+                        <p:ajax event="unselect" listener="#{orderListView.onUnselect}" update="msgs"/>
+                        <p:ajax event="reorder" listener="#{orderListView.onReorder}" update="msgs"/>
+
+                        <f:facet name="caption">Available</f:facet>
+
+                        <p:column style="width:40px">
+                            <span class="flag flag-#{country.code}" style="width: 30px; height: 20px"/>
+                        </p:column>
+
+                        <p:column>
+                            <h:outputText value="#{country.name}"/>
+                        </p:column>
+                    </p:orderList>
+                </div>
+                
+                
+                <div class="card">
+                    <h:form>
+                        <p:growl id="message" showDetail="true"/>
+
+                        <p:commandButton value="Confirm" action="#{confirmView.confirm}" update="message" styleClass="p-mr-2" icon="pi pi-check">
+                            <p:confirm type="popup" header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+
+                        <p:commandButton value="Delete" action="#{confirmView.delete}" update="message" styleClass="ui-button-danger" icon="pi pi-times">
+                            <p:confirm type="popup" header="Confirmation" message="Do you want to delete this record?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+
+                        <p:confirmPopup global="true">
+                            <p:commandButton value="No" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirm-popup-yes" />
+                        </p:confirmPopup>
+                    </h:form>
+                </div>
+                
+                <h:form>
+                    <p:commandButton type="button" onclick="PF('cd').show()" />
+                    <p:confirmDialog message="Are you sure about destroying the world?" header="Initiating destroy process" severity="alert" widgetVar="cd">
+                        <p:commandButton value="Yes Sure" action="#{buttonBean.destroyWorld}" oncomplete="PF('cd').hide()"/>
+                        <p:commandButton value="Not Yet" onclick="PF('cd').hide();" type="button" />
+                    </p:confirmDialog>
+                </h:form>
+                <p:confirmDialog widgetVar="cd" header="Confirm">
+                    <f:facet name="message">
+                        <h:outputText value="Are you sure?" />
+                    </f:facet>
+                    //content
+                </p:confirmDialog>
+                
+                <h:form>
+                    <p:commandButton type="button" onclick="PF('cd2').show()" />
+                    <p:confirmDialog message="Are you sure about destroying the world?" header="Initiating destroy process" severity="alert" widgetVar="cd2">
+                        <p:commandButton value="Yes Sure" action="#{buttonBean.destroyWorld}" oncomplete="PF('cd2').hide()"/>
+                        <p:commandButton value="Not Yet" onclick="PF('cd2').hide();" type="button" />
+                    </p:confirmDialog>
+                </h:form>
+                <p:confirmDialog widgetVar="cd2" header="Confirm">
+                    <f:facet name="message">
+                        <h:outputText value="Are you sure?" />
+                    </f:facet>
+                    //content
+                    cd2
+                </p:confirmDialog>
+            </h:form>
+        </h:body>
+        
+        
+    </f:view>
+    
+    
+<style type="text/css">
+    .ui-datalist .ui-datalist-content {
+        border:0 none
+    }
+ 
+    .ui-datalist ul {
+        padding:0px 10px 0 20px;
+        margin: 5px 0;
+    }
+ 
+    .label, .value {
+        vertical-align: top
+    }
+ 
+    .output {
+        font-weight: bold
+    }
+ 
+    .ui-selectmanymenu {
+        width: 175px;
+    }
+</style>
+    <h:form>
+        <p:growl>
+            <p:autoUpdate />
+        </p:growl>
+
+        <h:panelGrid columns="2" cellpadding="5">
+
+            <h:outputLabel for="menu" value="Basic:" />
+            <p:selectCheckboxMenu id="menu" value="#{checkboxView.selectedCities}" label="Cities"
+                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                <f:selectItems value="#{checkboxView.cities}" />
+            </p:selectCheckboxMenu>
+
+            <h:outputLabel for="multiple" value="Multiple:" />
+            <p:selectCheckboxMenu id="multiple" value="#{checkboxView.selectedCities2}" label="Cities" multiple="true"
+                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                <p:ajax event="itemUnselect" listener="#{checkboxView.onItemUnselect}" />
+                <f:selectItems value="#{checkboxView.cities}" />
+            </p:selectCheckboxMenu>
+
+            <h:outputLabel for="grouped" value="Grouped:" />
+            <p:selectCheckboxMenu id="grouped" value="#{checkboxView.selectedCars}" label="Cars" multiple="true"
+                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                <f:selectItems value="#{checkboxView.cars}" />
+            </p:selectCheckboxMenu>
+        </h:panelGrid>
+
+        <p:commandButton value="Submit" update="displayItems" oncomplete="PF('itemDialog').show()" style="margin-top:10px;" />
+
+        <p:dialog header="Selected Items" modal="true" showEffect="fade" hideEffect="fade" widgetVar="itemDialog" width="250">
+            <p:outputPanel id="displayItems">
+                <p:dataList value="#{checkboxView.selectedCities}" var="city" emptyMessage="No cities selected" style="margin-bottom: 10px;">
+                    <f:facet name="header">
+                        Basic
+                    </f:facet>
+                    #{city}
+                </p:dataList>
+
+                <p:dataList value="#{checkboxView.selectedCities2}" var="city" emptyMessage="No cities selected" style="margin-bottom: 10px;">
+                    <f:facet name="header">
+                        Multiple
+                    </f:facet>
+                    #{city}
+                </p:dataList>
+
+                <p:dataList value="#{checkboxView.selectedCars}" var="car" emptyMessage="No cars selected">
+                    <f:facet name="header">
+                        Grouped
+                    </f:facet>
+                    #{car}
+                </p:dataList>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</html>

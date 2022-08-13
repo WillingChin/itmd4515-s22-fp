@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/appTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="title">
+        User Welcome Page
+    </ui:define>
+    
+    <ui:define name="content">
+        GGG Gym
+    </ui:define>
+    
+    <ui:define name="menu">
+        <h1>Welcome  #{dashboardController.authenticatedUser}!</h1>
+        <h:panelGrid 
+            rendered="#{accountController.showSuccessMessage}"
+            class="alert alert-success" 
+            role="alert">
+            <h:messages globalOnly="true" showSummary="true" showDetail="true" />
+        </h:panelGrid>
+         
+        
+        <h1>
+            <a class="nav-link" onclick="PF('create').show()">
+                  <span data-feather=""></span>
+                  Add New Account
+            </a>
+        </h1>
+        <p:confirmDialog message="" header="Account" severity="alert" widgetVar="create">
+            <h:outputText value="#{form}"/>
+            <ezcomp:account
+                operation="create"
+                readonly="false"
+                account="#{form}" />
+            <div style="text-align:center;">
+                <p:commandButton value="Close" onclick="PF('create').hide();" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            </div>
+        </p:confirmDialog>
+       
+        
+        <h:dataTable 
+            class="table table-striped table-hover"
+            value="#{accountController.findAll}" var="form">
+            
+            <h:column>
+                <f:facet name="header"><h:outputText value="name"/></f:facet>
+                <h:outputText value="#{form.username}"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header"><h:outputText value="operationDesk"/></f:facet>
+                <h:outputText value="#{form.expired}"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header"><h:outputText value="opeartion"/></f:facet>
+                
+                <!-- Read, Update, Delete-->
+                <p:commandButton action="#{formView.viewForm}" icon="pi pi-search" title="View">
+                        <f:setPropertyActionListener value="#{form}" target="#{formView.form}" />
+                </p:commandButton>
+                
+                <p:commandButton value="read" action="${accountController.form(form)}" onclick="PF('read').show()" style="margin-right:20px;" styleClass="p-mr-2" icon="pi pi-check" />
+                <p:commandButton value="update" onclick="PF('update').show()" style="margin-right:20px;" icon="pi pi-save" />
+                <p:commandButton value="delete" onclick="PF('delete').show()" styleClass="ui-button-danger" icon="pi pi-times" />
+                
+                <p:confirmDialog message="" header="Account" severity="alert" widgetVar="read">
+                    
+                    <ezcomp:account
+                        operation="read"
+                        readonly="true"
+                        account="#{form}" />
+                    <div style="text-align:center;">
+                        <p:commandButton value="Close" onclick="PF('read').hide();" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    </div>
+                </p:confirmDialog>
+
+
+                <p:confirmDialog message="" header="Update Account" severity="alert" widgetVar="update">
+                    <ezcomp:account
+                        operation="update"
+                        readonly="false"
+                        account="#{form}"
+                        action="#{accountController.executeUpdateButtonClick()}"/>
+                    <p:commandButton value="Yes Sure" action="#{accountController.executeUpdateButtonClick()}" oncomplete="PF('update').hide()"/>
+                    <p:commandButton value="Not Yet" onclick="PF('update').hide();" type="button" />
+                </p:confirmDialog>
+
+
+                <p:confirmDialog message="" header="Update Account" severity="alert" widgetVar="delete">
+                    <ezcomp:account
+                        operation="delete"
+                        readonly="true"
+                        account="#{form}" />
+                    <p:commandButton value="Yes Sure" action="#{accountController.executeDeleteButtonClick(form)}" oncomplete="PF('delete').hide()" styleClass="ui-button-danger" />
+                    <p:commandButton value="Not Yet" onclick="PF('delete').hide();" type="button" />
+                </p:confirmDialog>
+            </h:column>
+            
+            
+        </h:dataTable>
+         
+    </ui:define>
+    
+</ui:composition>

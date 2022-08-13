@@ -1,0 +1,47 @@
+    /**
+     * Emtpy construct
+     */
+	 
+    /**
+     * Empty construct
+     * inherit a generic type-read method will use the super class information.
+     */
+	 
+    /**
+     * This is a setter which sets the name
+     * @param name - the name to be set
+     */
+	
+    /**
+     * This is a getter which gets the name
+     */
+	
+    /**
+     * 1:M add the name
+     */
+	 
+    /**
+     * 1:M remove the name
+     */
+	
+    /**
+     * M:M add the name
+     */
+	 
+    /**
+     * M:M remove the name
+     */
+	
+    /**
+     * Find all data
+     * @return
+     */
+	 
+    /**
+     * Find data by name
+     * @param groupName - search condition
+     * @return
+     */
+
+
+

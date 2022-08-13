@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/appTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
+    
+    <ui:define name="title">
+        Admin Welcome
+    </ui:define>
+    
+    <ui:define name="content">
+        GGG Gym
+    </ui:define>
+    
+    <ui:define name="menu">
+         <h1>Welcome  #{dashboardController.authenticatedUser}!</h1>
+        
+        <h:panelGrid 
+            rendered="#{userController.showSuccessMessage}"
+            class="alert alert-success" 
+            role="alert">
+            <h:messages globalOnly="true" showSummary="true" showDetail="true" />
+        </h:panelGrid>
+        
+        <h1>
+            <a class="nav-link" href="/xchen202-fp/admin/user_create.xhtml">
+                  <span data-feather=""></span>
+                  Add New user
+            </a>
+        </h1>
+        
+        <h:dataTable 
+            class="table table-striped table-hover"
+            value="#{userController.allUsers}" var="user">
+            
+            <h:column>
+                <f:facet name="header"><h:outputText value="username"/></f:facet>
+                <h:outputText value="#{user.username}"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header"><h:outputText value="enabled"/></f:facet>
+                <h:outputText value="#{user.enabled}">
+                    <f:converter converterId="SelectItemToEnableConverter"/>
+                </h:outputText> 
+            </h:column>
+            
+            <h:column>
+                <h:form>
+                    <h:commandLink value="read " action="#{userController.displayReadPage(user)}" />
+                    <h:commandLink value="update " action="#{userController.displayUpdatePage(user)}" />
+                    <h:commandLink value="delete " action="#{userController.displayDeletePage(user)}" />
+                    
+                    
+                 </h:form>
+            </h:column>
+            
+        </h:dataTable>
+    </ui:define>
+    
+</ui:composition>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form id="carform">
+        <p:outputPanel id="carDetail" style="text-align:center;">
+            <p:panelGrid  columns="2" columnClasses="label,value">
+                
+                <h:outputText value="Id:" />
+                <h:outputText value="#{dtSelectionView.selectedCar.id}" />
+                
+                <h:outputText value="Year" />
+                <h:outputText value="#{dtSelectionView.selectedCar.year}" />
+                
+                <h:outputText value="Color:" />
+                <h:outputText value="#{dtSelectionView.selectedCar.color}" style="color:#{dtSelectionView.selectedCar.color}"/>
+                
+                <h:outputText value="Price" />
+                <h:outputText value="$ #{dtSelectionView.selectedCar.price}" />
+            </p:panelGrid>
+        </p:outputPanel>
+	</h:form>
+	
+	<!-- Try to add a button on the footer, but it is never show -->
+	<f:facet name="footer">
+		<p:commandButton value="Close" id="close" onclick="PF('carDialog').hide()" icon="pi pi-times" />
+	</f:facet>	        
+	
+</h:body>
+</html>

@@ -1,0 +1,12 @@
+edu.iit.sat.itmd515.xchen202
+edu.iit.sat.itmd515.xchen202.config
+edu.iit.sat.itmd515.xchen202.dao
+edu.iit.sat.itmd515.xchen202.domain
+edu.iit.sat.itmd515.xchen202.resources
+edu.iit.sat.itmd515.xchen202.security
+edu.iit.sat.itmd515.xchen202.security.domain
+edu.iit.sat.itmd515.xchen202.service
+edu.iit.sat.itmd515.xchen202.util
+edu.iit.sat.itmd515.xchen202.web
+edu.iit.sat.itmd515.xchen202.web.admin
+edu.iit.sat.itmd515.xchen202.web.user
